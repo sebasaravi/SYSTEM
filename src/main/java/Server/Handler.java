@@ -52,11 +52,13 @@ public class Handler extends Thread{
                         }
                         String[]namesFilePath = obtenerNombresPartes();
                         sendToClient(namesFilePath);
-
                         break;
                     case "2":
-
-                        break;
+                            System.out.println(Server.clients.size());
+                            sendOption("2");
+                            receiveToClient();
+                            send();
+                    break;
                     case "3":
 
                         break;
@@ -69,6 +71,42 @@ public class Handler extends Thread{
             }
         }
     }
+    public void receiveToClient() throws IOException {
+
+        pathFile = PATH+"definitivo.txt";
+        FileOutputStream fileOut = new FileOutputStream(
+                pathFile);
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        for(int i= 0; i < 3; i++){
+            DataInputStream in = new DataInputStream(Server.clients.get(i).getInputStream());
+            byte[]buffer = new byte[1024];
+            int bytesRead;
+            while((bytesRead = in.read(buffer)) != -1){
+                byteStream.write(buffer,0,bytesRead);
+            }
+        }
+        byteStream.writeTo(fileOut);
+        byteStream.close();
+        fileOut.close();
+    }
+    public void sendOption(String opc) throws IOException{
+        for(int i= 0; i < 3; i++) {
+            DataOutputStream out = new DataOutputStream(Server.clients.get(i).getOutputStream());
+            out.writeUTF(opc);
+            out.flush();
+        }
+    }
+
+    public void send() throws IOException {
+        FileInputStream fileOut = new FileInputStream(pathFile);
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = fileOut.read(buffer)) != -1) {
+            write.write(buffer, 0, bytesRead);
+        }
+        write.flush();
+    }
+
     public void sendToClient(String[] names) throws IOException {
         for(int i= 0; i < 3; i++){
             DataOutputStream out = new DataOutputStream(Server.clients.get(i).getOutputStream());
