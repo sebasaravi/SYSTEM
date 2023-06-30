@@ -20,18 +20,22 @@ public class Client {
         outputStream.writeUTF("2");
         outputStream.flush();
         //while(true){
-        //File file = fileChooser.getSelectedFile();
-        //FileInputStream fileOut = new FileInputStream(file);
+        File file = fileChooser.getSelectedFile();
+        FileInputStream fileOut = new FileInputStream(file);
         byte[] buffer = new byte[1024];
         int bytesRead;
+        while ((bytesRead = fileOut.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        outputStream.flush();
         //}
 
-        FileOutputStream fileO = new FileOutputStream(
-                pathFile);
-        while((bytesRead = inputStream.read(buffer)) != -1){
-            fileO.write(buffer, 0 , bytesRead);
-        }
-        fileO.close();
+        //FileOutputStream fileO = new FileOutputStream(
+        //        pathFile);
+        //while((bytesRead = inputStream.read(buffer)) != -1){
+        //    fileO.write(buffer, 0 , bytesRead);
+        //}
+        //fileO.close();
 
 
     }
