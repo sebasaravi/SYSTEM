@@ -26,7 +26,7 @@ public class Server extends Thread{
         while(true){
             try{
                 Socket client = network.accept();
-                if(count < 1){
+                if(count < 3){
                     clients.add(client);
                     count++;
                     System.out.println(client.getInetAddress());

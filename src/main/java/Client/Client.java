@@ -8,7 +8,7 @@ import java.net.Socket;
 public class Client {
     static Socket sfd = null;
     public static void main(String[] args) throws IOException {
-        sfd = new Socket("192.168.0.6",8000);
+        sfd = new Socket("25.49.127.138",8000);
         String pathFile ="C:\\Users\\Sebastian\\Desktop\\Files\\Final\\final.txt";
         DataInputStream inputStream = new DataInputStream(
                 new BufferedInputStream(sfd.getInputStream()));
@@ -17,7 +17,7 @@ public class Client {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.showDialog(fileChooser,
                 JFileChooser.APPROVE_SELECTION);
-        outputStream.writeUTF("2");
+        outputStream.writeUTF("1");
         outputStream.flush();
         //while(true){
         File file = fileChooser.getSelectedFile();
@@ -28,6 +28,7 @@ public class Client {
             outputStream.write(buffer, 0, bytesRead);
         }
         outputStream.flush();
+        sfd.close();
         //}
 
         //FileOutputStream fileO = new FileOutputStream(
