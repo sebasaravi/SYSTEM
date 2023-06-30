@@ -72,25 +72,22 @@ public class Handler extends Thread{
         }
     }
     public void receiveToClient() throws IOException {
-
         pathFile = PATH+"definitivo.txt";
         FileOutputStream fileOut = new FileOutputStream(
                 pathFile);
-        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-        for(int i= 0; i < 3; i++){
+        byte[]buffer = new byte[8129];
+        int bytesRead;
+        for(int i= 0; i < 1; i++){
             DataInputStream in = new DataInputStream(Server.clients.get(i).getInputStream());
-            byte[]buffer = new byte[1024];
-            int bytesRead;
             while((bytesRead = in.read(buffer)) != -1){
-                byteStream.write(buffer,0,bytesRead);
+                fileOut.write(buffer,0, bytesRead);
+                System.out.println(buffer);
             }
         }
-        byteStream.writeTo(fileOut);
-        byteStream.close();
         fileOut.close();
     }
     public void sendOption(String opc) throws IOException{
-        for(int i= 0; i < 3; i++) {
+        for(int i= 0; i < 1; i++) {
             DataOutputStream out = new DataOutputStream(Server.clients.get(i).getOutputStream());
             out.writeUTF(opc);
             out.flush();
